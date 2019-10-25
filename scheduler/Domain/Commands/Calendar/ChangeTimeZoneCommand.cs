@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Scheduler.Commands.Calendar
+namespace Scheduler.Domain.Commands.Calendar
 {
 	public class ChangeTimeZoneCommand
 	{

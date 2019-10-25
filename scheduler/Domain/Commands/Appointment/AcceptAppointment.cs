@@ -1,4 +1,4 @@
-﻿namespace Scheduler.Commands.Appointment
+﻿namespace Scheduler.Domain.Commands.Appointment
 {
 	public class AcceptAppointment
 	{

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Scheduler.Events.Calendar
+namespace Scheduler.Domain.Events.Calendar
 {
-	class OrganisersDefinedEvent
+	public class NewCalendarDefinedEvent
 	{
 	}
 }

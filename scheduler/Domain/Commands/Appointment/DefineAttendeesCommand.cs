@@ -1,8 +1,7 @@
-﻿using Scheduler.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Scheduler.Commands.Appointment
+namespace Scheduler.Domain.Commands.Appointment
 {
 	public class DefineAttendeesCommand
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Scheduler.Commands.Calendar
+namespace Scheduler.Domain.Commands.Calendar
 {
 	public class PlanNewAppointmentCommand
 	{
