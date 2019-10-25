@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Kledex.Domain;
+using System;
 
-namespace Scheduler.Domain.Commands.Calendar
+namespace Scheduler.Domain.Commands
 {
-	public class PlanNewAppointmentCommand
+	public class PlanNewAppointmentCommand : DomainCommand
 	{
 		public int CalendarId { get; }
 		public DateTime UtcStart { get; }

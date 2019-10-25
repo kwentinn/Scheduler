@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Kledex.Domain;
+using System;
 
-namespace Scheduler.Domain.Commands.Calendar
+namespace Scheduler.Domain.Commands
 {
-	public class ChangeTimeZoneCommand
+	public class ChangeTimeZoneCommand : DomainCommand
 	{
 		public TimeZoneInfo CalendarTimeZone { get; }
 
