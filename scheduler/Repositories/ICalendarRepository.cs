@@ -8,6 +8,8 @@ namespace Scheduler.Domain.Repositories
 	public interface ICalendarRepository
 	{
 		Task CreateCalendar(Calendar calendar);
-		Task ArchiveCalendar(Guid aggregateRootId);
+		Calendar GetById(Guid calendarId);
+		Task UpdateAsync(Calendar calendar);
+		Task SaveAsync();
 	}
 }
