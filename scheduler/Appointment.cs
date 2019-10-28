@@ -12,8 +12,8 @@ namespace Scheduler.Domain
 
 		public int MaxAttendees { get; private set; }
 		public bool IsCanceled { get; private set; }
-		public bool MustSendReminder { get; private set; }
-
+		public bool SendReminder { get; private set; }
+		public AppointmentStatus AppointmentStatus { get; private set; }
 		public string ConferenceUri { get; private set; }
 		public string ConferenceUriForOrganiser { get; private set; }
 
@@ -21,9 +21,12 @@ namespace Scheduler.Domain
 
 		public Appointment(string title, TimeRange utcPeriod)
 		{
-			if (string.IsNullOrEmpty(title)) throw new ArgumentException(nameof(title));
+			if (string.IsNullOrEmpty(title))
+				throw new ArgumentException(nameof(title));
+
 			Title = title;
 			UtcPeriod = utcPeriod ?? throw new ArgumentNullException(nameof(utcPeriod));
+			AppointmentStatus = AppointmentStatus.Draft;
 		}
 
 		#region actions
@@ -33,7 +36,14 @@ namespace Scheduler.Domain
 		public void AddParticipant(Participant p) { Participants.Add(p); }
 		public void RemoveParticipant(Participant p) { Participants.Remove(p); }
 		public void ChangeMaxAttendees(int maxAttendees) { MaxAttendees = maxAttendees; }
-		public void ChangeMustSendReminder(bool mustSendReminder) { MustSendReminder = mustSendReminder; }
+		public void ChangeMustSendReminder(bool sendReminder) { SendReminder = sendReminder; }
 		#endregion
+	}
+
+	public enum AppointmentStatus
+	{
+		Draft,
+		Accepted,
+		Canceled
 	}
 }
