@@ -26,7 +26,10 @@ namespace Scheduler.Domain.Commands.Handlers
 			await _calendarRepository.CreateCalendar(calendar);
 
 			// on renvoie une liste d'évènements
-			return new List<IDomainEvent> { new NewCalendarDefinedEvent(calendar.Id, calendar.Name) };
+			return new List<IDomainEvent>
+			{
+				new NewCalendarDefinedEvent(calendar.Id, calendar.Name)
+			};
 		}
 	}
 }

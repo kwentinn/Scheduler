@@ -1,4 +1,5 @@
 ﻿using Kledex.Domain;
+using Scheduler.Domain.Events;
 using System;
 using System.Collections.Generic;
 
@@ -19,7 +20,11 @@ namespace Scheduler.Domain
 			if (string.IsNullOrEmpty(name))
 				throw new ApplicationException("Calendar name is required");
 
-			Name = name;
+			// with event surcing
+			AddAndApplyEvent(new NewCalendarDefinedEvent(id, name));
+
+			// without event sourcing
+			//Name = name;
 		}
 
 		public void Archive()
@@ -27,8 +32,23 @@ namespace Scheduler.Domain
 			if (IsArchived)
 				throw new ApplicationException("Calendar already archived");
 
-			IsArchived = true;
+			// with event surcing
+			AddAndApplyEvent(new CalendarArchivedEvent());
+
+			// without event sourcing
+			//IsArchived = true;
 		}
 
+		#region Applys methods (event sourcing)
+		public void Apply(NewCalendarDefinedEvent @event)
+		{
+			Id = @event.Id;
+			Name = @event.Name;
+		}
+		public void Apply(CalendarArchivedEvent @event)
+		{
+			IsArchived = true;
+		}
+		#endregion
 	}
 }
