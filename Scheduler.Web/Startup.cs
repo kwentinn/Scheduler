@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Kledex.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Scheduler.Domain.Commands;
 
 namespace Scheduler.Web
@@ -30,14 +23,7 @@ namespace Scheduler.Web
 			services
 				.AddControllers();
 			services
-				.AddKledex
-				(
-					// commands
-					typeof(DefineNewCalendarCommand)
-
-				// queries
-				//typeof(GetProduct)
-				);
+				.AddKledex(typeof(DefineNewCalendarCommand));
 				//.AddSqlServerProvider(Configuration);
 		}
 

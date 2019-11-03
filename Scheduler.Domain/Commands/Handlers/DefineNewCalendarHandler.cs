@@ -1,34 +1,30 @@
-﻿using Kledex.Domain;
-using Scheduler.Domain.Events;
-using Scheduler.Domain.Repositories;
-using System;
-using System.Collections.Generic;
+﻿using Kledex.Commands;
+using Kledex.Domain;
 using System.Threading.Tasks;
 
 namespace Scheduler.Domain.Commands.Handlers
 {
-	public class DefineNewCalendarHandler : IDomainCommandHandlerAsync<DefineNewCalendarCommand>
+	public class DefineNewCalendarHandler : ICommandHandlerAsync<DefineNewCalendarCommand>
 	{
-		private readonly ICalendarRepository _calendarRepository;
+		private readonly IRepository<Calendar> _calendarRepository;
 
-		public DefineNewCalendarHandler(ICalendarRepository calendarRepository)
+		public DefineNewCalendarHandler(IRepository<Calendar> calendarRepository)
 		{
 			_calendarRepository = calendarRepository;
 		}
 
-
-		public async Task<IEnumerable<IDomainEvent>> HandleAsync(DefineNewCalendarCommand command)
+		public async Task<CommandResponse> HandleAsync(DefineNewCalendarCommand command)
 		{
 			// création de l'instance
 			var calendar = new Calendar(command.AggregateRootId, command.CalendarName);
 
 			//... et sauvegarde (sans event sourcing)
-			await _calendarRepository.CreateCalendar(calendar);
+			await _calendarRepository.SaveAsync(calendar);
 
 			// on renvoie une liste d'évènements
-			return new List<IDomainEvent>
+			return new CommandResponse
 			{
-				new NewCalendarDefinedEvent(calendar.Id, calendar.Name)
+				Events = calendar.Events
 			};
 		}
 	}

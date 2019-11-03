@@ -3,7 +3,7 @@ using System;
 
 namespace Scheduler.Domain.Commands
 {
-	public class PlanNewAppointmentCommand : DomainCommand
+	public class PlanNewAppointmentCommand : DomainCommand<Calendar>
 	{
 		public int CalendarId { get; }
 		public DateTime UtcStart { get; }

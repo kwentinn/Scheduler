@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Scheduler.Domain.Commands
 {
-	public class DefineOrganisersCommand : DomainCommand
+	public class DefineOrganisersCommand : DomainCommand<Calendar>
 	{
 		public List<Organiser> Organisers { get; }
 		public DefineOrganisersCommand(List<Organiser> organisers)

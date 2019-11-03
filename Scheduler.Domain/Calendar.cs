@@ -22,9 +22,6 @@ namespace Scheduler.Domain
 
 			// with event surcing
 			AddAndApplyEvent(new NewCalendarDefinedEvent(id, name));
-
-			// without event sourcing
-			//Name = name;
 		}
 
 		public void Archive()
@@ -34,9 +31,6 @@ namespace Scheduler.Domain
 
 			// with event surcing
 			AddAndApplyEvent(new CalendarArchivedEvent());
-
-			// without event sourcing
-			//IsArchived = true;
 		}
 
 		#region Applys methods (event sourcing)

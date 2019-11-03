@@ -3,7 +3,7 @@ using System;
 
 namespace Scheduler.Domain.Commands
 {
-	public class DefineNewCalendarCommand : DomainCommand
+	public class DefineNewCalendarCommand : DomainCommand<Calendar>
 	{
 		public string CalendarName { get; }
 		public TimeZoneInfo CalendarTimeZone { get; }
