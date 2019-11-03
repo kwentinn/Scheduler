@@ -4,8 +4,5 @@ namespace Scheduler.Domain.Commands
 {
 	public class ArchiveCalendarCommand : DomainCommand<Calendar>
 	{
-		public ArchiveCalendarCommand()
-		{
-		}
 	}
 }

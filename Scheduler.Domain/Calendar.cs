@@ -34,6 +34,7 @@ namespace Scheduler.Domain
 		}
 
 		#region Applys methods (event sourcing)
+
 		public void Apply(NewCalendarDefinedEvent @event)
 		{
 			Id = @event.Id;
@@ -43,6 +44,7 @@ namespace Scheduler.Domain
 		{
 			IsArchived = true;
 		}
+
 		#endregion
 	}
 }
