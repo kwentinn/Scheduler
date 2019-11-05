@@ -4,15 +4,12 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>b6026fb5-2eea-416e-a3dc-24829199f49b</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Scheduler.Domain\Scheduler.Domain.csproj" />
-    <ProjectReference Include="..\Scheduler.Infrastructure\Scheduler.Infrastructure.csproj" />
+    <ProjectReference Include="..\Scheduler.Reporting\Scheduler.Reporting.csproj" />
   </ItemGroup>
 
 </Project>

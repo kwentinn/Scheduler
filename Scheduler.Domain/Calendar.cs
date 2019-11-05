@@ -35,7 +35,7 @@ namespace Scheduler.Domain
 		public void Apply(NewCalendarDefinedEvent @event)
 		{
 			Id = @event.Id;
-			Name = @event.Name;
+			Name = @event.Title;
 		}
 		public void Apply(CalendarArchivedEvent @event)
 		{

@@ -1,10 +1,13 @@
 using Kledex.Extensions;
+using Kledex.Store.Cosmos.Mongo.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Scheduler.Domain.Commands;
+using Scheduler.Domain;
+using Scheduler.Reporting.Data;
 
 namespace Scheduler.Web
 {
@@ -22,9 +25,23 @@ namespace Scheduler.Web
 		{
 			services
 				.AddControllers();
+
+			// configure readmodel - mysql db
+			services.AddDbContext<SchedulerReadModelDbContext>(o => o.UseMySQL(Configuration.GetConnectionString("ReadModel")));
+
 			services
-				.AddKledex(typeof(DefineNewCalendarCommand));
-				//.AddSqlServerProvider(Configuration);
+				.AddScoped<IReadModelService, ReadModelService>()
+			;
+
+			services
+				.AddKledex(typeof(Appointment))
+
+				// configure event store (MongoDB)
+				.AddCosmosDbMongoDbProvider(Configuration)
+
+				// configure message bus (rabbitMQ)
+				//.AddRabbitMQProvider(Configuration)
+				;
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
