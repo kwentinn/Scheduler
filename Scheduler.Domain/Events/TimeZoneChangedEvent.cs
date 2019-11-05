@@ -1,11 +1,16 @@
 ﻿using Kledex.Domain;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scheduler.Domain.Events
 {
 	public class TimeZoneChangedEvent : DomainEvent
 	{
+		public string TimeZoneCode { get; }
+
+		public TimeZoneChangedEvent(Guid calendarId, string timeZoneCode)
+		{
+			AggregateRootId = calendarId;
+			TimeZoneCode = timeZoneCode;
+		}
 	}
 }

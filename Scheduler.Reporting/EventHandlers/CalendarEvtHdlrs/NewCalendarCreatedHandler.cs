@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Scheduler.Reporting.EventHandlers.CalendarEvtHdlrs
 {
-	public class NewCalendarCreatedHandler : IEventHandlerAsync<NewCalendarDefinedEvent>
+	public class NewCalendarCreatedHandler : IEventHandlerAsync<CalendarCreatedEvent>
 	{
 		private readonly IReadModelService _readModelService;
 
@@ -14,9 +14,9 @@ namespace Scheduler.Reporting.EventHandlers.CalendarEvtHdlrs
 			_readModelService = readModelService;
 		}
 
-		public async Task HandleAsync(NewCalendarDefinedEvent @event)
+		public async Task HandleAsync(CalendarCreatedEvent @event)
 		{
-			await _readModelService.CreateCalendarAsync(@event.AggregateRootId, @event.Title);
+			await _readModelService.CreateCalendarAsync(@event.AggregateRootId, @event.Title, @event.TimeZone);
 		}
 	}
 }

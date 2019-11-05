@@ -5,7 +5,13 @@ namespace Scheduler.Domain.Events
 {
 	public class AttendeeAddedToAppointment : DomainEvent
 	{
-		public Guid AppointmentId { get; set; }
-		public Guid AttendeeUserId { get; set; }
+		public Guid AppointmentId { get; }
+		public Guid AttendeeUserId { get; }
+
+		public AttendeeAddedToAppointment(Guid appointmentId, Guid attendeeUserId)
+		{
+			AppointmentId = appointmentId;
+			AttendeeUserId = attendeeUserId;
+		}
 	}
 }

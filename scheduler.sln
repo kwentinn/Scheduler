@@ -8,10 +8,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler", "Scheduler\Scheduler.csproj", "{3269BFC8-D16F-4F18-8DBC-DF8C3E8FBC27}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C007240-AF1A-49AB-8906-AA21300AAA52}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1144AB8C-8FA0-4DDD-BC60-C14C3450CADC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler.Reporting", "Scheduler.Reporting\Scheduler.Reporting.csproj", "{337161A4-B2E3-49E6-B218-7FACD4E9C065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler.Reporting", "Scheduler.Reporting\Scheduler.Reporting.csproj", "{337161A4-B2E3-49E6-B218-7FACD4E9C065}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +28,6 @@ Global
 		{3269BFC8-D16F-4F18-8DBC-DF8C3E8FBC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3269BFC8-D16F-4F18-8DBC-DF8C3E8FBC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3269BFC8-D16F-4F18-8DBC-DF8C3E8FBC27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1144AB8C-8FA0-4DDD-BC60-C14C3450CADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1144AB8C-8FA0-4DDD-BC60-C14C3450CADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1144AB8C-8FA0-4DDD-BC60-C14C3450CADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1144AB8C-8FA0-4DDD-BC60-C14C3450CADC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{337161A4-B2E3-49E6-B218-7FACD4E9C065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{337161A4-B2E3-49E6-B218-7FACD4E9C065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{337161A4-B2E3-49E6-B218-7FACD4E9C065}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,9 +35,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1144AB8C-8FA0-4DDD-BC60-C14C3450CADC} = {6C007240-AF1A-49AB-8906-AA21300AAA52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38D6DB4B-7CF8-4336-A3AF-3A3E6884CB6F}

@@ -16,32 +16,44 @@ namespace Scheduler.Domain
 		public List<User> Organisers { get; private set; }
 
 		public Calendar() { }
-		public Calendar(Guid id, string name) : base(id)
+		public Calendar(Guid id, string name, string timeZone = "Romance Standard Time") : base(id)
 		{
+			if (id == Guid.Empty) throw new ApplicationException("id is invalid.");
 			if (string.IsNullOrEmpty(name)) throw new ApplicationException("Calendar name is required");
 
-			AddAndApplyEvent(new NewCalendarDefinedEvent(id, name));
+			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
+			TimeZoneInfo.FindSystemTimeZoneById(timeZone);
+
+			AddAndApplyEvent(new CalendarCreatedEvent(id, name, timeZone));
 		}
 
 		public void Archive()
 		{
-			if (IsArchived) throw new ApplicationException("Calendar already archived");
+			if (IsArchived) throw new ApplicationException("Calendar is already archived");
 
-			AddAndApplyEvent(new CalendarArchivedEvent());
+			AddAndApplyEvent(new CalendarArchivedEvent(Id));
 		}
 
-		#region Apply methods (event sourcing)
+		public void DefineOrganisers(List<User> organisers)
+		{
+			if (organisers == null || organisers.Count == 0) throw new ArgumentException(nameof(organisers));
 
-		public void Apply(NewCalendarDefinedEvent @event)
+			AddAndApplyEvent(new OrganisersDefined(Id, organisers));
+		}
+
+		private void Apply(CalendarCreatedEvent @event)
 		{
 			Id = @event.Id;
 			Name = @event.Title;
+			TimeZone = TimeZoneInfo.FindSystemTimeZoneById(@event.TimeZone);
 		}
-		public void Apply(CalendarArchivedEvent @event)
+		private void Apply(CalendarArchivedEvent @event)
 		{
 			IsArchived = true;
 		}
-
-		#endregion
+		private void Apply(OrganisersDefined @event)
+		{
+			Organisers.AddRange(@event.Organisers);
+		}
 	}
 }

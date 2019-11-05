@@ -21,14 +21,7 @@ namespace Scheduler.Domain
 			if (string.IsNullOrEmpty(email)) throw new ApplicationException("Lastname is required.");
 
 			// tout est ok, on applique l'évent sur l'objet
-			AddAndApplyEvent(new UserRegistered
-			{
-				AggregateRootId = id,
-				Firstname = firstname,
-				Lastname = lastname,
-				Email = email,
-				TimeZoneCode = timeZoneCode
-			});
+			AddAndApplyEvent(new UserRegistered(id, firstname, lastname, email, timeZoneCode));
 		}
 
 		private void Apply(UserRegistered @event)

@@ -13,6 +13,7 @@ namespace Scheduler.Reporting.Data.Entities
 		public DateTime UtcCreatedAt { get; set; }
 		public DateTime? UtcLastUpdate { get; set; }
 
-		//public virtual ICollection<UserEntity> Organisers { get; set; }
+		public virtual ICollection<CalendarOrganiserEntity> CalendarOrganisers { get; set; }
+		public virtual ICollection<AppointmentEntity> Appointments { get; set; }
 	}
 }

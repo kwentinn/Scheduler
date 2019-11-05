@@ -3,9 +3,9 @@ using System;
 
 namespace Scheduler.Domain.Commands.CalendarCommands
 {
-	public class ArchiveCalendarCommand : DomainCommand<Calendar>
+	public class ArchiveCalendar : DomainCommand<Calendar>
 	{
-		public ArchiveCalendarCommand(Guid calendarId)
+		public ArchiveCalendar(Guid calendarId)
 		{
 			AggregateRootId = calendarId;
 		}

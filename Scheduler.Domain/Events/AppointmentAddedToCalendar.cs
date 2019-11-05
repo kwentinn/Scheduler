@@ -5,9 +5,17 @@ namespace Scheduler.Domain.Events
 {
 	public class AppointmentAddedToCalendar : DomainEvent
 	{
-		public Guid	CalendarId { get; set; }
-		public string AppointmentTitle { get; set; }
-		public DateTime AppointmentStartUtc { get; set; }
-		public DateTime AppointmentEndUtc { get; set; }
+		public Guid	CalendarId { get;  }
+		public string AppointmentTitle { get; }
+		public DateTime AppointmentStartUtc { get; }
+		public DateTime AppointmentEndUtc { get; }
+
+		public AppointmentAddedToCalendar(Guid calendarId, string appointmentTitle, DateTime appointmentStartUtc, DateTime appointmentEndUtc)
+		{
+			CalendarId = calendarId;
+			AppointmentTitle = appointmentTitle;
+			AppointmentStartUtc = appointmentStartUtc;
+			AppointmentEndUtc = appointmentEndUtc;
+		}
 	}
 }

@@ -33,6 +33,7 @@ namespace Scheduler.Domain
 			});
 		}
 
+
 		public void Cancel()
 		{
 			if (Status != AppointmentStatus.Accepted)
@@ -49,7 +50,6 @@ namespace Scheduler.Domain
 
 			Status = AppointmentStatus.Draft;
 		}
-		//private void Apply()
 	}
 
 	public enum AppointmentStatus

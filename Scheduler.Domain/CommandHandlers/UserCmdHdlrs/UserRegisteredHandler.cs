@@ -19,13 +19,14 @@ namespace Scheduler.Domain.CommandHandlers.UserCmdHdlrs
 			// création de l'instance
 			var user = new User(command.AggregateRootId, command.Firstname, command.Lastname, command.Email, command.TimeZoneCode);
 
-			//... et sauvegarde (sans event sourcing)
+			//... et sauvegarde 
 			await _repository.SaveAsync(user);
 
-			// on renvoie une liste d'évènements
+			// on renvoie la liste d'évènements 
 			return new CommandResponse
 			{
-				Events = user.Events
+				Events = user.Events,
+				Result = user.Id
 			};
 		}
 	}

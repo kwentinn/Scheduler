@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 
 namespace Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs
 {
-	public class CreateNewCalendarHandler : ICommandHandlerAsync<CreateNewCalendarCommand>
+	public class CreateCalendarHandler : ICommandHandlerAsync<CreateCalendar>
 	{
 		private readonly IRepository<Calendar> _calendarRepository;
 
-		public CreateNewCalendarHandler(IRepository<Calendar> calendarRepository)
+		public CreateCalendarHandler(IRepository<Calendar> calendarRepository)
 		{
 			_calendarRepository = calendarRepository;
 		}
 
-		public async Task<CommandResponse> HandleAsync(CreateNewCalendarCommand command)
+		public async Task<CommandResponse> HandleAsync(CreateCalendar command)
 		{
 			// création de l'instance
-			var calendar = new Calendar(command.AggregateRootId, command.CalendarName);
+			var calendar = new Calendar(command.AggregateRootId, command.Title, command.TimeZone);
 
 			//... et sauvegarde (sans event sourcing)
 			await _calendarRepository.SaveAsync(calendar);
@@ -25,7 +25,8 @@ namespace Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs
 			// on renvoie une liste d'évènements
 			return new CommandResponse
 			{
-				Events = calendar.Events
+				Events = calendar.Events,
+				Result = calendar.Id
 			};
 		}
 	}

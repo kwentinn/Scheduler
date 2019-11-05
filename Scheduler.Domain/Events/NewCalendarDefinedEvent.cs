@@ -3,14 +3,16 @@ using System;
 
 namespace Scheduler.Domain.Events
 {
-	public class NewCalendarDefinedEvent : DomainEvent
+	public class CalendarCreatedEvent : DomainEvent
 	{
 		public string Title { get; private set; }
+		public string TimeZone { get; }
 
-		public NewCalendarDefinedEvent(Guid aggregateRootId, string name)
+		public CalendarCreatedEvent(Guid calendarId, string title, string timeZone)
 		{
-			AggregateRootId = aggregateRootId;
-			this.Title = name;
+			AggregateRootId = calendarId;
+			Title = title;
+			TimeZone = timeZone;
 		}
 	}
 }
