@@ -1,44 +1,55 @@
 ﻿using Itenso.TimePeriod;
 using Kledex.Domain;
+using Scheduler.Domain.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Scheduler.Domain
 {
-	public class Appointment
+	public class Appointment : AggregateRoot
 	{
-		public int Id { get; set; }
 		public string Title { get; private set; }
 		public TimeRange UtcPeriod { get; private set; }
+		public AppointmentStatus Status { get; private set; }
+		public Guid CalendarId { get; set; }
 
-		public int MaxAttendees { get; private set; }
-		public bool IsCanceled { get; private set; }
-		public bool SendReminder { get; private set; }
-		public AppointmentStatus AppointmentStatus { get; private set; }
-		public string ConferenceUri { get; private set; }
-		public string ConferenceUriForOrganiser { get; private set; }
+		public ReadOnlyCollection<User> Participants { get; private set; }
 
-		public List<Participant> Participants { get; private set; } = new List<Participant>();
-
-		public Appointment(string title, TimeRange utcPeriod)
+		public Appointment() { }
+		public Appointment(Guid id, string title, TimeRange utcPeriod)
 		{
-			if (string.IsNullOrEmpty(title))
-				throw new ArgumentException(nameof(title));
+			// vérifications d'usage :)
+			if (string.IsNullOrEmpty(title)) throw new ArgumentException(nameof(title));
+			if (UtcPeriod.IsMoment) throw new ApplicationException("The period is invalid because it is a moment (start = end).");
+			if (UtcPeriod.IsAnytime) throw new ApplicationException("The period is invalid because it is not defined.");
 
-			Title = title;
-			UtcPeriod = utcPeriod ?? throw new ArgumentNullException(nameof(utcPeriod));
-			AppointmentStatus = AppointmentStatus.Draft;
+			AddAndApplyEvent(new NewAppointmentPlannedEvent()
+			{
+				AggregateRootId = id,
+				Title = title,
+				Start = utcPeriod.Start,
+				End = utcPeriod.End
+			});
 		}
 
-		#region actions
-		public void ChangeTitle(string title) { Title = title; }
-		public void Cancel() { IsCanceled = true; }
-		public void Postpone(TimeRange utcPeriod) { UtcPeriod = utcPeriod; }
-		public void AddParticipant(Participant p) { Participants.Add(p); }
-		public void RemoveParticipant(Participant p) { Participants.Remove(p); }
-		public void ChangeMaxAttendees(int maxAttendees) { MaxAttendees = maxAttendees; }
-		public void ChangeMustSendReminder(bool sendReminder) { SendReminder = sendReminder; }
-		#endregion
+		public void Cancel()
+		{
+			if (Status != AppointmentStatus.Accepted)
+				throw new ApplicationException($"Cannot cancel because appointment is not accepted (current state: ${Status}).");
+
+			Status = AppointmentStatus.Canceled;
+		}
+
+		private void Apply(NewAppointmentPlannedEvent @event)
+		{
+			Id = @event.AggregateRootId;
+			Title = @event.Title;
+			UtcPeriod = new TimeRange(@event.Start, @event.End);
+
+			Status = AppointmentStatus.Draft;
+		}
+		//private void Apply()
 	}
 
 	public enum AppointmentStatus

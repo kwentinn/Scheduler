@@ -1,9 +1,10 @@
 ﻿using Kledex.Commands;
 using Kledex.Domain;
+using Scheduler.Domain.Commands.CalendarCommands;
 using System;
 using System.Threading.Tasks;
 
-namespace Scheduler.Domain.Commands.Handlers
+namespace Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs
 {
 	public class ArchiveCalendarHandler : ICommandHandlerAsync<ArchiveCalendarCommand>
 	{
