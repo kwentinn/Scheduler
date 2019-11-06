@@ -8,6 +8,10 @@ namespace Scheduler.Domain.Commands.CalendarCommands
 	{
 		public List<Guid> OrganisersIds { get; }
 
+		public DefineOrganisers()
+		{
+
+		}
 		public DefineOrganisers(Guid calendarId, List<Guid> organisersIds)
 		{
 			OrganisersIds = organisersIds;

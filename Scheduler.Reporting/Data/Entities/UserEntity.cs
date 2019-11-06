@@ -8,5 +8,9 @@ namespace Scheduler.Reporting.Data.Entities
 		public string Firstname { get; set; }
 		public string Lastname { get; set; }
 		public string Email { get; set; }
+
+		public DateTime UtcCreatedAt { get; set; }
+
+		public CalendarEntity Calendar { get; set; }
 	}
 }

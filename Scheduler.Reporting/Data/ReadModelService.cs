@@ -40,6 +40,7 @@ namespace Scheduler.Reporting.Data
 				TimeZoneCode = timezone,
 				IsArchived = false
 			});
+
 			await _context.SaveChangesAsync();
 		}
 	}

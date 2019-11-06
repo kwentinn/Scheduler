@@ -1,7 +1,6 @@
 ﻿using Kledex.Events;
 using Scheduler.Domain.Events;
 using Scheduler.Reporting.Data;
-using System;
 using System.Threading.Tasks;
 
 namespace Scheduler.Reporting.EventHandlers.CalendarEvtHdlrs

@@ -8,8 +8,13 @@ namespace Scheduler.Domain.Commands.CalendarCommands
 		public string Title { get; }
 		public string TimeZone { get; }
 
+		public CreateCalendar()
+		{
+
+		}
 		public CreateCalendar(Guid calendarId, string title, string timeZone)
 		{
+			Id = Guid.NewGuid();
 			AggregateRootId = calendarId;
 			Title = title;
 			TimeZone = timeZone;

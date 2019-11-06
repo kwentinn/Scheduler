@@ -1,0 +1,1 @@
+docker build . -f .\Scheduler\Dockerfile -t scheduler/api

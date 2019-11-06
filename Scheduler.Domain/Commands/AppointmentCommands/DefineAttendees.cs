@@ -8,6 +8,10 @@ namespace Scheduler.Domain.Commands.AppointmentCommands
 	{
 		public List<Guid> ParticipantsIdsToAdd { get; }
 
+		public DefineAttendees()
+		{
+
+		}
 		public DefineAttendees(Guid appointmentId, List<Guid> participantsIdsToAdd)
 		{
 			if (participantsIdsToAdd.Count == 0) throw new ArgumentException(nameof(participantsIdsToAdd));

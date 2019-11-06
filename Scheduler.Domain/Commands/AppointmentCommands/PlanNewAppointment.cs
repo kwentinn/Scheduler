@@ -10,6 +10,10 @@ namespace Scheduler.Domain.Commands.CalendarCommands
 		public DateTime AppointmentEndUtc { get; }
 		public Guid CalendarId { get; set; }
 
+		public PlanNewAppointment()
+		{
+				
+		}
 		public PlanNewAppointment(Guid appointmentId, Guid calendarId, string appointmentTitle, DateTime appointmentStartUtc, DateTime appointmentEndUtc)
 		{
 			if (appointmentId == Guid.NewGuid()) throw new ArgumentException(nameof(appointmentId));

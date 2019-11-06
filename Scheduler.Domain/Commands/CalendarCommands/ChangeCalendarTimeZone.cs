@@ -7,6 +7,10 @@ namespace Scheduler.Domain.Commands.CalendarCommands
 	{
 		public TimeZoneInfo CalendarTimeZone { get; }
 
+		public ChangeCalendarTimeZone()
+		{
+				
+		}
 		public ChangeCalendarTimeZone(Guid calendarId, TimeZoneInfo calendarTimeZone)
 		{
 			AggregateRootId = calendarId;

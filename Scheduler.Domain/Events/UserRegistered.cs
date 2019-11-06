@@ -10,6 +10,11 @@ namespace Scheduler.Domain.Events
 		public string Email { get; }
 		public string TimeZoneCode { get; }
 
+
+		public UserRegistered()
+		{
+
+		}
 		public UserRegistered(Guid userId, string firstname, string lastname, string email, string timeZoneCode)
 		{
 			AggregateRootId = userId;

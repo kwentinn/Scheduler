@@ -43,7 +43,7 @@ namespace Scheduler.Domain
 
 		private void Apply(CalendarCreatedEvent @event)
 		{
-			Id = @event.Id;
+			Id = @event.AggregateRootId;
 			Name = @event.Title;
 			TimeZone = TimeZoneInfo.FindSystemTimeZoneById(@event.TimeZone);
 		}

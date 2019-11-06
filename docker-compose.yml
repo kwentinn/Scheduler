@@ -1,11 +1,9 @@
 version: '2'
-
 services:
 
-  ## app ############################################################
   scheduler-api:
     container_name: scheduler-api
-    image: 'scheduler/api'
+    image: scheduler/api
     environment:
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
       - 'ASPNETCORE_URLS=http://+:80'
@@ -20,49 +18,48 @@ services:
       scheduler-network:
         ipv4_address: 172.16.1.101
     depends_on:
-        - scheduler-es
-        - scheduler-db
+      - scheduler-es
+      - scheduler-db
+      - scheduler-bus
 
-  ## event store ####################################################
   scheduler-es:
-    container_name: 'scheduler-es'
-    image: 'mongo'
+    container_name: scheduler-es
+    image: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: 'root'
-      MONGO_INITDB_ROOT_PASSWORD: 'root'
-      MONGO_INITDB_DATABASE: 'SessionLoggerEventStore'
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: SessionLoggerEventStore
     ports:
       - '27017:27017'
     networks:
       scheduler-network:
         ipv4_address: 172.16.1.102
 
-  ## database #######################################################
   scheduler-db:
-    image: 'mcr.microsoft.com/mssql/server'
-    container_name: 'scheduler-db'
-    ports:
-      - '1433:1433'
+    container_name: scheduler-db
+    image: postgres:12.0-alpine
     environment:
-      ACCEPT_EULA: 'Y'
-      MSSQL_SA_PASSWORD: '@Password@2019'
-      MSSQL_PID: 'Developer'
+      POSTGRES_DB: 'SchedulerReadModel'
+      POSTGRES_USER: 'scheduler_user'
+      POSTGRES_PASSWORD: example
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
     networks:
       scheduler-network:
         ipv4_address: 172.16.1.103
 
-  ## bus ##########################################################
   scheduler-bus:
-    container_name: 'scheduler-bus'
+    container_name: scheduler-bus
     image: 'rabbitmq:3-management'
     ports:
-      - "15672:15672"
-      - "5672:5672"
+      - '15672:15672'
+      - '5672:5672'
     networks:
-      backend:
+      scheduler-network:
         ipv4_address: 172.16.1.104
 
-## network interfaces ###############################################
 networks:
   scheduler-network:
     driver: bridge

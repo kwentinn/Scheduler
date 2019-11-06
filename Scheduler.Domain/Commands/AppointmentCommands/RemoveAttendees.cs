@@ -8,6 +8,10 @@ namespace Scheduler.Domain.Commands.AppointmentCommands
 	{
 		public List<Guid> ParticipantsIdsToDelete { get; }
 
+		public RemoveAttendees()
+		{
+				
+		}
 		public RemoveAttendees(Guid appointmentId, List<Guid> participantsIdsToDelete)
 		{
 			if (participantsIdsToDelete.Count == 0) throw new ArgumentException(nameof(participantsIdsToDelete));

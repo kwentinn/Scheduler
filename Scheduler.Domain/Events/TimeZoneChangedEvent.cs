@@ -7,6 +7,10 @@ namespace Scheduler.Domain.Events
 	{
 		public string TimeZoneCode { get; }
 
+		public TimeZoneChangedEvent()
+		{
+
+		}
 		public TimeZoneChangedEvent(Guid calendarId, string timeZoneCode)
 		{
 			AggregateRootId = calendarId;

@@ -27,7 +27,7 @@ namespace Scheduler.Web
 				.AddControllers();
 
 			// configure readmodel - mysql db
-			services.AddDbContext<SchedulerReadModelDbContext>(o => o.UseMySQL(Configuration.GetConnectionString("ReadModel")));
+			services.AddDbContext<SchedulerReadModelDbContext>(o => o.UseNpgsql(Configuration.GetConnectionString("ReadModel")));
 
 			services
 				.AddScoped<IReadModelService, ReadModelService>()
@@ -45,12 +45,14 @@ namespace Scheduler.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SchedulerReadModelDbContext readModelDbContext)
 		{
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			readModelDbContext.Database.EnsureCreated();
 
 			app.UseHttpsRedirection();
 

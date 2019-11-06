@@ -7,6 +7,10 @@ namespace Scheduler.Domain.Commands.AppointmentCommands
 	{
 		public Guid ParticipantId { get; private set; }
 
+		public AcceptAppointment()
+		{
+
+		}
 		public AcceptAppointment(Guid appointmentId, Guid participantId)
 		{
 			Id = Guid.NewGuid();
