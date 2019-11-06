@@ -24,7 +24,12 @@ namespace Scheduler.Domain
 			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
 			TimeZoneInfo.FindSystemTimeZoneById(timeZone);
 
-			AddAndApplyEvent(new CalendarCreatedEvent(id, name, timeZone));
+			AddAndApplyEvent(new CalendarCreatedEvent
+			{
+				AggregateRootId = id,
+				Title = name,
+				TimeZone = timeZone
+			});
 		}
 
 		public void Archive()
@@ -33,7 +38,6 @@ namespace Scheduler.Domain
 
 			AddAndApplyEvent(new CalendarArchivedEvent(Id));
 		}
-
 		public void DefineOrganisers(List<User> organisers)
 		{
 			if (organisers == null || organisers.Count == 0) throw new ArgumentException(nameof(organisers));

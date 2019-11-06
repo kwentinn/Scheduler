@@ -7,7 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scheduler.Domain;
+using Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs;
+using Scheduler.Domain.Commands.CalendarCommands;
+using Scheduler.Domain.Events;
 using Scheduler.Reporting.Data;
+using Scheduler.Reporting.EventHandlers.UserEvtHdlrs;
 
 namespace Scheduler.Web
 {
@@ -34,7 +38,14 @@ namespace Scheduler.Web
 			;
 
 			services
-				.AddKledex(typeof(Appointment))
+				.AddKledex
+				(
+					typeof(Appointment), 
+					typeof(CreateCalendar), 
+					typeof(CreateCalendarHandler), 
+					typeof(UserRegistered), 
+					typeof(UserRegisteredHandler)
+				)
 
 				// configure event store (MongoDB)
 				.AddCosmosDbMongoDbProvider(Configuration)

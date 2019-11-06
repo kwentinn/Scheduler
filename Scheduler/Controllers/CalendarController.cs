@@ -25,8 +25,17 @@ namespace Scheduler.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateCalendarAsync(Scheduler.Controllers.ApiCommands.CreateCalendarCommand command)
 		{
-			var cmd = new Domain.Commands.CalendarCommands.CreateCalendar(Guid.NewGuid(), command.Title, command.TimeZoneCode);
+			var cmd = new Domain.Commands.CalendarCommands.CreateCalendar
+			{
+				Id = Guid.NewGuid(),
+				
+				AggregateRootId = Guid.NewGuid(),
+				Title = command.Title,
+				TimeZone = command.TimeZoneCode
+			};
+
 			var calendarId = await _dispatcher.SendAsync<Guid>(cmd);
+
 			return Ok(new { Id = calendarId });
 		}
 	}

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Scheduler.Reporting.EventHandlers.CalendarEvtHdlrs
 {
-	public class NewCalendarCreatedHandler : IEventHandlerAsync<CalendarCreatedEvent>
+	public class CalendarCreatedHandler : IEventHandlerAsync<CalendarCreatedEvent>
 	{
 		private readonly IReadModelService _readModelService;
 
-		public NewCalendarCreatedHandler(IReadModelService readModelService)
+		public CalendarCreatedHandler(IReadModelService readModelService)
 		{
 			_readModelService = readModelService;
 		}

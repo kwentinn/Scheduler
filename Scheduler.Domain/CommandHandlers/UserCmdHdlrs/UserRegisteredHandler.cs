@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Scheduler.Domain.CommandHandlers.UserCmdHdlrs
 {
-	public class UserRegisteredHandler : ICommandHandlerAsync<RegisterUser>
+	public class RegisterUserHandler : ICommandHandlerAsync<RegisterUser>
 	{
 		public readonly IRepository<User> _repository;
 
-		public UserRegisteredHandler(IRepository<User> repository)
+		public RegisterUserHandler(IRepository<User> repository)
 		{
 			_repository = repository;
 		}

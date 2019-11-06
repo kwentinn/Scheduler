@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Scheduler.Domain;
+using Scheduler.Reporting.Data.Entities;
 
 namespace Scheduler.Reporting.Data
 {
@@ -10,6 +11,7 @@ namespace Scheduler.Reporting.Data
 	{
 		Task CreateCalendarAsync(Guid aggregateRootId, string name, string timezone);
 		Task AddOrganisersToCalendarAsync(Guid aggregateRootId, List<User> organisers);
+		Task CreateUserAsync(Guid id, string firstname, string lastname, string email, string timeZoneCode);
 	}
 	public class ReadModelService : IReadModelService
 	{
@@ -40,7 +42,19 @@ namespace Scheduler.Reporting.Data
 				TimeZoneCode = timezone,
 				IsArchived = false
 			});
+			await _context.SaveChangesAsync();
+		}
 
+		public async Task CreateUserAsync(Guid id, string firstname, string lastname, string email, string timeZoneCode)
+		{
+			_context.Users.Add(new UserEntity
+			{
+				Id = id,
+				Firstname = firstname,
+				Lastname = lastname,
+				Email = email,
+				TimeZoneCode = timeZoneCode
+			});
 			await _context.SaveChangesAsync();
 		}
 	}
