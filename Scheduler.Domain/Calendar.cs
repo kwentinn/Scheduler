@@ -2,6 +2,7 @@
 using Scheduler.Domain.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Scheduler.Domain
 {
@@ -13,13 +14,19 @@ namespace Scheduler.Domain
 
 		//public List<Appointment> Appointments { get; private set; }
 
-		public List<User> Organisers { get; private set; }
+		private List<Guid> _organiserIds = new List<Guid>();
+		public ReadOnlyCollection<Guid> OrganiserIds => _organiserIds.AsReadOnly();
 
-		public Calendar() { }
+		public Calendar()
+		{
+			_organiserIds = new List<Guid>();
+		}
 		public Calendar(Guid id, string name, string timeZone = "Romance Standard Time") : base(id)
 		{
 			if (id == Guid.Empty) throw new ApplicationException("id is invalid.");
 			if (string.IsNullOrEmpty(name)) throw new ApplicationException("Calendar name is required");
+
+			_organiserIds = new List<Guid>();
 
 			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
 			TimeZoneInfo.FindSystemTimeZoneById(timeZone);
@@ -38,11 +45,15 @@ namespace Scheduler.Domain
 
 			AddAndApplyEvent(new CalendarArchivedEvent(Id));
 		}
-		public void DefineOrganisers(List<User> organisers)
+		internal void DefineOrganiser(User user)
 		{
-			if (organisers == null || organisers.Count == 0) throw new ArgumentException(nameof(organisers));
+			if (user is null) throw new ArgumentNullException(nameof(user));
 
-			AddAndApplyEvent(new OrganisersDefined(Id, organisers));
+			AddAndApplyEvent(new CalendarOwnerDefined
+			{
+				AggregateRootId = Id,
+				OwnerId = user.Id
+			});
 		}
 
 		private void Apply(CalendarCreatedEvent @event)
@@ -55,9 +66,9 @@ namespace Scheduler.Domain
 		{
 			IsArchived = true;
 		}
-		private void Apply(OrganisersDefined @event)
+		private void Apply(CalendarOwnerDefined @event)
 		{
-			Organisers.AddRange(@event.Organisers);
+			_organiserIds.Add(@event.OwnerId);
 		}
 	}
 }

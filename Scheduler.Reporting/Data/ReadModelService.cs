@@ -10,7 +10,7 @@ namespace Scheduler.Reporting.Data
 	public interface IReadModelService
 	{
 		Task CreateCalendarAsync(Guid aggregateRootId, string name, string timezone);
-		Task AddOrganisersToCalendarAsync(Guid aggregateRootId, List<User> organisers);
+		Task AddCalendarOwnerAsync(Guid aggregateRootId, Guid ownerId);
 		Task CreateUserAsync(Guid id, string firstname, string lastname, string email, string timeZoneCode);
 	}
 	public class ReadModelService : IReadModelService
@@ -22,14 +22,14 @@ namespace Scheduler.Reporting.Data
 			_context = context;
 		}
 
-		public async Task AddOrganisersToCalendarAsync(Guid aggregateRootId, List<User> organisers)
+		public async Task AddCalendarOwnerAsync(Guid aggregateRootId, Guid ownerId)
 		{
 			var calendar = await _context.Calendars.FindAsync(aggregateRootId);
 			if (calendar == null)
 			{
 				throw new ReadModelException($"Cannot find calendar with id {aggregateRootId}");
 			}
-			var users = await _context.Users.FindAsync(organisers.Select(o => o.Id).ToList());
+			//var users = await _context.Users.FindAsync(organisers.Select(o => o.Id).ToList());
 			//calendar.Organisers =
 		}
 

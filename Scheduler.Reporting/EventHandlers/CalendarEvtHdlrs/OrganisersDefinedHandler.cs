@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 
 namespace Scheduler.Reporting.EventHandlers.CalendarEvtHdlrs
 {
-	public class OrganisersDefinedHandler : IEventHandlerAsync<OrganisersDefined>
+	public class CalendarOwnerDefinedHandler : IEventHandlerAsync<CalendarOwnerDefined>
 	{
 		private readonly IReadModelService _readModelService;
 
-		public OrganisersDefinedHandler(IReadModelService readModelService)
+		public CalendarOwnerDefinedHandler(IReadModelService readModelService)
 		{
 			_readModelService = readModelService;
 		}
 
-		public async Task HandleAsync(OrganisersDefined @event)
+		public async Task HandleAsync(CalendarOwnerDefined @event)
 		{
-			await _readModelService.AddOrganisersToCalendarAsync(@event.AggregateRootId, @event.Organisers);
+			await _readModelService.AddCalendarOwnerAsync(@event.AggregateRootId, @event.OwnerId);
 		}
 	}
 }
