@@ -21,7 +21,7 @@ namespace Scheduler.Domain
 			if (string.IsNullOrEmpty(email)) throw new ApplicationException("Lastname is required.");
 
 			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
-			TimeZoneInfo.FindSystemTimeZoneById(timeZoneCode);
+			TimeZoneInfo.FindSystemTimeZoneById(timeZoneCode ?? "Romance Standard Time");
 
 			// tout est ok, on applique l'évent sur l'objet
 			AddAndApplyEvent(new UserRegistered(id, firstname, lastname, email, timeZoneCode));
