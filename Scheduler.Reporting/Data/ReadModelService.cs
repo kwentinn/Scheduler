@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Scheduler.Domain;
 using Scheduler.Reporting.Data.Entities;
 
@@ -12,6 +13,7 @@ namespace Scheduler.Reporting.Data
 		Task CreateCalendarAsync(Guid aggregateRootId, string name, string timezone);
 		Task AddCalendarOwnerAsync(Guid aggregateRootId, Guid ownerId);
 		Task CreateUserAsync(Guid id, string firstname, string lastname, string email, string timeZoneCode);
+		Task<IEnumerable<UserEntity>> GetRecentUsersAsync();
 	}
 	public class ReadModelService : IReadModelService
 	{
@@ -29,8 +31,8 @@ namespace Scheduler.Reporting.Data
 			{
 				throw new ReadModelException($"Cannot find calendar with id {aggregateRootId}");
 			}
-			//var users = await _context.Users.FindAsync(organisers.Select(o => o.Id).ToList());
-			//calendar.Organisers =
+			var user = await _context.Users.FindAsync(ownerId);
+			//calendar.CalendarOrganisers.Add(user);
 		}
 
 		public async Task CreateCalendarAsync(Guid aggregateRootId, string title, string timezone)
@@ -56,6 +58,13 @@ namespace Scheduler.Reporting.Data
 				TimeZoneCode = timeZoneCode
 			});
 			await _context.SaveChangesAsync();
+		}
+
+		public async Task<IEnumerable<UserEntity>> GetRecentUsersAsync()
+		{
+			return await _context.Users
+				.Take(10)
+				.ToListAsync();
 		}
 	}
 }
