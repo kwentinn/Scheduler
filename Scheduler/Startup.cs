@@ -13,7 +13,7 @@ using Scheduler.Domain.Events;
 using Scheduler.Reporting.Data;
 using Scheduler.Reporting.EventHandlers.UserEvtHdlrs;
 
-namespace Scheduler.Web
+namespace Scheduler
 {
 	public class Startup
 	{

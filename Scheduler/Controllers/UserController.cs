@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace Scheduler.Web.Controllers
+namespace Scheduler.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]

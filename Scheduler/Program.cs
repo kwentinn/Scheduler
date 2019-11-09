@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 
-namespace Scheduler.Web
+namespace Scheduler
 {
 	public class Program
 	{
