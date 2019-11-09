@@ -1,5 +1,4 @@
 ﻿using Kledex.Domain;
-using System;
 
 namespace Scheduler.Domain.Commands.CalendarCommands
 {

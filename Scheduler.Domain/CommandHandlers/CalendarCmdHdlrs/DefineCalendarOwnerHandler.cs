@@ -19,19 +19,18 @@ namespace Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs
 
 		public async Task<CommandResponse> HandleAsync(DefineCalendarOwner command)
 		{
-			// récup du calendrier
+			// get calendar by id
 			var calendar = await _calendarRepository.GetByIdAsync(command.AggregateRootId);
 			if (calendar == null)
 			{
 				throw new ApplicationException($"Cannot find calendar (${command.AggregateRootId})");
 			}
 
-			// récup des users par leurs ids
-
+			// get user by id
 			var user = await _userRepository.GetByIdAsync(command.OwnerId);
 			if (user == null)
 			{
-				throw new ApplicationException($"User not found ({command.OwnerId})");
+				throw new ApplicationException($"Cannot find ({command.OwnerId})");
 			}
 
 			// on joue l'action sur l'objet du domaine
