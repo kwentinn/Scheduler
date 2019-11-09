@@ -12,13 +12,16 @@ namespace Scheduler.Domain
 		public TimeZoneInfo TimeZone { get; private set; }
 
 		public User() { }
-		public User(Guid id, string firstname, string lastname, string email, string timeZoneCode = null)
+		public User(Guid id, string firstname, string lastname, string email, string timeZoneCode = "Romance Standard Time")
 		{
 			// vérifications
 			if (id == Guid.Empty) throw new ApplicationException("Id cannot be an empty Guid.");
 			if (string.IsNullOrEmpty(firstname)) throw new ApplicationException("Firstname is required.");
 			if (string.IsNullOrEmpty(lastname)) throw new ApplicationException("Lastname is required.");
 			if (string.IsNullOrEmpty(email)) throw new ApplicationException("Lastname is required.");
+
+			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
+			TimeZoneInfo.FindSystemTimeZoneById(timeZoneCode);
 
 			// tout est ok, on applique l'évent sur l'objet
 			AddAndApplyEvent(new UserRegistered(id, firstname, lastname, email, timeZoneCode));
@@ -30,7 +33,7 @@ namespace Scheduler.Domain
 			Firstname = @event.Firstname;
 			Lastname = @event.Lastname;
 			Email = @event.Email;
-			//TimeZone = new TimeZoneInfo() {  @event.TimeZoneCode;
+			TimeZone = TimeZoneInfo.FindSystemTimeZoneById(@event.TimeZoneCode);
 		}
 	}
 }
