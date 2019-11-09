@@ -5,16 +5,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
-COPY ["Scheduler.Web/Scheduler.Web.csproj", "Scheduler.Web/"]
-RUN dotnet restore "Scheduler.Web/Scheduler.Web.csproj"
+COPY ["Scheduler/Scheduler.csproj", "Scheduler/"]
+COPY ["Scheduler.Reporting/Scheduler.Reporting.csproj", "Scheduler.Reporting/"]
+COPY ["Scheduler.Domain/Scheduler.Domain.csproj", "Scheduler.Domain/"]
+RUN dotnet restore "Scheduler/Scheduler.csproj"
 COPY . .
-WORKDIR "/src/Scheduler.Web"
-RUN dotnet build "Scheduler.Web.csproj" -c Release -o /app/build
+WORKDIR "/src/Scheduler"
+RUN dotnet build "Scheduler.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Scheduler.Web.csproj" -c Release -o /app/publish
+RUN dotnet publish "Scheduler.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Scheduler.Web.dll"]
+ENTRYPOINT ["dotnet", "Scheduler.dll"]
