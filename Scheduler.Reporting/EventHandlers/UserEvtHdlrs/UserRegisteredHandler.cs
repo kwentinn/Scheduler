@@ -16,7 +16,7 @@ namespace Scheduler.Reporting.EventHandlers.UserEvtHdlrs
 
 		public async Task HandleAsync(UserRegistered @event)
 		{
-			await _readModelService.CreateUserAsync(@event.Id, @event.Firstname, @event.Lastname, @event.Email, @event.TimeZoneCode);
+			await _readModelService.CreateUserAsync(@event.Id, @event.Firstname, @event.Lastname, @event.Email, @event.TimeZone);
 		}
 	}
 }
