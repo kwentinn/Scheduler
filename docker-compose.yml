@@ -3,7 +3,8 @@ services:
 
   scheduler-api:
     container_name: scheduler-api
-    image: scheduler/api
+    build: .
+    image: kwn34/scheduler:beta
     environment:
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
       - 'ASPNETCORE_URLS=http://+:80'
