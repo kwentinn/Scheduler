@@ -31,8 +31,35 @@ namespace Scheduler.Reporting.Data
 			{
 				throw new ReadModelException($"Cannot find calendar with id {aggregateRootId}");
 			}
+
 			var user = await _context.Users.FindAsync(ownerId);
-			//calendar.CalendarOrganisers.Add(user);
+			if (user == null)
+			{
+				throw new ReadModelException($"Cannot find user with id {ownerId}");
+			}
+
+			calendar.CalendarOrganisers.Add(new CalendarOrganiserEntity
+			{
+				CalendarId = aggregateRootId,
+				UserId = ownerId
+			});
+
+			_context.Update(calendar);
+
+			await _context.SaveChangesAsync();
+
+			//if (_context.CalendarOrganisers.Any(co => co.CalendarId == aggregateRootId && co.UserId == ownerId))
+			//{
+			//	return;
+			//}
+
+			//calendar.CalendarOrganisers.Add(new CalendarOrganiserEntity
+			//{
+			//	CalendarId = aggregateRootId,
+			//	UserId = ownerId
+			//});
+
+
 		}
 
 		public async Task CreateCalendarAsync(Guid aggregateRootId, string title, string timezone)

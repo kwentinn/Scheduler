@@ -23,6 +23,24 @@ namespace Scheduler.Controllers
 		}
 
 		[HttpPost]
+		[Route("owner")]
+		public async Task<IActionResult> DefineCalendarOwnerAsync(ApiCommands.DefineCalendarOwner command)
+		{
+			var cmd = new Domain.Commands.CalendarCommands.DefineCalendarOwner
+			{
+				Id = Guid.NewGuid(),
+				
+				AggregateRootId = command.CalendarId,
+				OwnerId = command.OwnerId
+			};
+
+			var calendarId = await _dispatcher.SendAsync<Guid>(cmd);
+
+			return Ok(new { Id = calendarId });
+		}
+
+		
+		[HttpPost]
 		public async Task<IActionResult> CreateCalendarAsync(ApiCommands.CreateCalendarCommand command)
 		{
 			var cmd = new Domain.Commands.CalendarCommands.CreateCalendar
@@ -38,5 +56,7 @@ namespace Scheduler.Controllers
 
 			return Ok(new { Id = calendarId });
 		}
+
+
 	}
 }
