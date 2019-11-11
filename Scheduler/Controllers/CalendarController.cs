@@ -34,9 +34,9 @@ namespace Scheduler.Controllers
 				OwnerId = command.OwnerId
 			};
 
-			var calendarId = await _dispatcher.SendAsync<Guid>(cmd);
+			await _dispatcher.SendAsync<Guid>(cmd);
 
-			return Ok(new { Id = calendarId });
+			return Ok();
 		}
 
 		

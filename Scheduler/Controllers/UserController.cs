@@ -29,7 +29,15 @@ namespace Scheduler.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateUserAsync(ApiCommands.CreateUserCommand command)
 		{
-			var cmd = new Domain.Commands.UserCommands.RegisterUser(Guid.NewGuid(), command.Firstname, command.Lastname, command.Email, command.TimeZone);
+			var cmd = new Domain.Commands.UserCommands.RegisterUser
+			{
+				Id = Guid.NewGuid(),
+				AggregateRootId = Guid.NewGuid(),
+				Firstname = command.Firstname,
+				Lastname = command.Lastname,
+				Email = command.Email,
+				TimeZoneCode = command.TimeZone
+			};
 
 			var userId = await _dispatcher.SendAsync<Guid>(cmd);
 

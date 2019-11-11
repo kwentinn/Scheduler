@@ -38,6 +38,7 @@ namespace Scheduler.Reporting.Data
 				throw new ReadModelException($"Cannot find user with id {ownerId}");
 			}
 
+			calendar.CalendarOrganisers = new List<CalendarOrganiserEntity>();
 			calendar.CalendarOrganisers.Add(new CalendarOrganiserEntity
 			{
 				CalendarId = aggregateRootId,
