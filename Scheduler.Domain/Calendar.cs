@@ -3,6 +3,7 @@ using Scheduler.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using TimeZoneConverter;
 
 namespace Scheduler.Domain
 {
@@ -29,7 +30,7 @@ namespace Scheduler.Domain
 			_organiserIds = new List<Guid>();
 
 			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
-			TimeZoneInfo.FindSystemTimeZoneById(timeZone);
+			TZConvert.GetTimeZoneInfo(timeZone);
 
 			AddAndApplyEvent(new CalendarCreatedEvent
 			{
@@ -60,7 +61,7 @@ namespace Scheduler.Domain
 		{
 			Id = @event.AggregateRootId;
 			Name = @event.Title;
-			TimeZone = TimeZoneInfo.FindSystemTimeZoneById(@event.TimeZone);
+			TimeZone = TZConvert.GetTimeZoneInfo(@event.TimeZone);
 		}
 		private void Apply(CalendarArchivedEvent @event)
 		{
