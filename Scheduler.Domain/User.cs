@@ -1,6 +1,7 @@
 ﻿using Kledex.Domain;
 using Scheduler.Domain.Events;
 using System;
+using TimeZoneConverter;
 
 namespace Scheduler.Domain
 {
@@ -21,7 +22,7 @@ namespace Scheduler.Domain
 			if (string.IsNullOrEmpty(email)) throw new ApplicationException("Lastname is required.");
 
 			// si le timezone est bidon, ça pètera ici sans envoyer l'event of course
-			//TimeZoneInfo.FindSystemTimeZoneById(timezone);
+			TZConvert.GetTimeZoneInfo(timezone);
 
 			// tout est ok, on applique l'évent sur l'objet
 			AddAndApplyEvent(new UserRegistered
@@ -40,7 +41,7 @@ namespace Scheduler.Domain
 			Firstname = @event.Firstname;
 			Lastname = @event.Lastname;
 			Email = @event.Email;
-			TimeZone = TimeZoneInfo.FindSystemTimeZoneById(@event.TimeZone);
+			TimeZone = TZConvert.GetTimeZoneInfo(@event.TimeZone);
 		}
 	}
 }
