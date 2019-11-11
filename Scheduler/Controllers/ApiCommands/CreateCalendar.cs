@@ -3,6 +3,6 @@
 	public class CreateCalendarCommand
 	{
 		public string Title { get; set; }
-		public string TimeZoneCode { get; set; }
+		public string TimeZone { get; set; }
 	}
 }

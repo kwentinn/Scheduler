@@ -23,7 +23,7 @@ namespace Scheduler.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateCalendarAsync(Scheduler.Controllers.ApiCommands.CreateCalendarCommand command)
+		public async Task<IActionResult> CreateCalendarAsync(ApiCommands.CreateCalendarCommand command)
 		{
 			var cmd = new Domain.Commands.CalendarCommands.CreateCalendar
 			{
@@ -31,7 +31,7 @@ namespace Scheduler.Controllers
 				
 				AggregateRootId = Guid.NewGuid(),
 				Title = command.Title,
-				TimeZone = command.TimeZoneCode
+				TimeZone = command.TimeZone
 			};
 
 			var calendarId = await _dispatcher.SendAsync<Guid>(cmd);
