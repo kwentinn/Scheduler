@@ -71,6 +71,9 @@ namespace Scheduler.Reporting.Data
 				entity.Property(e => e.Title)
 					.HasMaxLength(128);
 
+				entity.Property(e => e.Description)
+					.HasMaxLength(512);
+
 				entity.HasOne(d => d.Calendar)
 					.WithMany(p => p.Appointments)
 					.HasForeignKey(d => d.CalendarId)

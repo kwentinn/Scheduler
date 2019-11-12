@@ -13,7 +13,7 @@ namespace Scheduler.Domain
 		public bool IsArchived { get; private set; }
 		public TimeZoneInfo TimeZone { get; private set; }
 
-		//public List<Appointment> Appointments { get; private set; }
+		public List<Appointment> Appointments { get; private set; }
 
 		private List<Guid> _organiserIds = new List<Guid>();
 		public ReadOnlyCollection<Guid> OrganiserIds => _organiserIds.AsReadOnly();
@@ -40,13 +40,14 @@ namespace Scheduler.Domain
 			});
 		}
 
+
 		public void Archive()
 		{
 			if (IsArchived) throw new ApplicationException("Calendar is already archived");
 
 			AddAndApplyEvent(new CalendarArchivedEvent(Id));
 		}
-		internal void DefineOrganiser(User user)
+		public void DefineOrganiser(User user)
 		{
 			if (user is null) throw new ArgumentNullException(nameof(user));
 

@@ -1,9 +1,8 @@
-﻿using Kledex.Domain;
-using System;
+﻿using System;
 
-namespace Scheduler.Domain.Commands.AppointmentCommands
+namespace Scheduler.Controllers.ApiCommands
 {
-	public class PlanNewAppointment : DomainCommand<Appointment>
+	public class PlanAppointment
 	{
 		public string Title { get; set; }
 		public string Description { get; set; }

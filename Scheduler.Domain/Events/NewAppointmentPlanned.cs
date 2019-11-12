@@ -3,15 +3,12 @@ using System;
 
 namespace Scheduler.Domain.Events
 {
-	public class NewAppointmentPlannedEvent : DomainEvent
+	public class NewAppointmentPlanned : DomainEvent
 	{
 		public string Title { get; set; }
+		public string Description { get; set; }
 		public DateTime Start { get; set; }
 		public DateTime End { get; set; }
-
-		public NewAppointmentPlannedEvent()
-		{
-
-		}
+		public Guid CalendarId { get; set; }
 	}
 }
