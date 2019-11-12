@@ -1,6 +1,9 @@
 ﻿using Kledex;
 using Microsoft.AspNetCore.Mvc;
+using Scheduler.Reporting.Data.Entities;
+using Scheduler.Reporting.Queries;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Scheduler.Controllers
@@ -17,9 +20,11 @@ namespace Scheduler.Controllers
 		}
 
 		[HttpGet]
+		[Route("period")]
 		public async Task<IActionResult> GetCalendarAsync([FromQuery(Name = "calendarId")]Guid calendarId)
 		{
-			throw new NotImplementedException("à coder!");
+			var data = await _dispatcher.GetResultAsync(new GetCalendarDataForPeriodQuery());
+			return Ok(data);
 		}
 
 		[HttpPost]
@@ -29,7 +34,7 @@ namespace Scheduler.Controllers
 			var cmd = new Domain.Commands.CalendarCommands.DefineCalendarOwner
 			{
 				Id = Guid.NewGuid(),
-				
+
 				AggregateRootId = command.CalendarId,
 				OwnerId = command.OwnerId
 			};
@@ -39,14 +44,13 @@ namespace Scheduler.Controllers
 			return Ok();
 		}
 
-		
 		[HttpPost]
 		public async Task<IActionResult> CreateCalendarAsync(ApiCommands.CreateCalendarCommand command)
 		{
 			var cmd = new Domain.Commands.CalendarCommands.CreateCalendar
 			{
 				Id = Guid.NewGuid(),
-				
+
 				AggregateRootId = Guid.NewGuid(),
 				Title = command.Title,
 				TimeZone = command.TimeZone
@@ -56,7 +60,5 @@ namespace Scheduler.Controllers
 
 			return Ok(new { Id = calendarId });
 		}
-
-
 	}
 }

@@ -14,6 +14,7 @@ namespace Scheduler.Reporting.Data
 		Task AddCalendarOwnerAsync(Guid aggregateRootId, Guid ownerId);
 		Task CreateUserAsync(Guid id, string firstname, string lastname, string email, string timeZoneCode);
 		Task<IEnumerable<UserEntity>> GetRecentUsersAsync();
+		Task<IEnumerable<CalendarEntity>> GetCalendarDataForPeriodAsync();
 	}
 	public class ReadModelService : IReadModelService
 	{
@@ -26,7 +27,9 @@ namespace Scheduler.Reporting.Data
 
 		public async Task AddCalendarOwnerAsync(Guid aggregateRootId, Guid ownerId)
 		{
-			var calendar = await _context.Calendars.FindAsync(aggregateRootId);
+			var calendar = await _context.Calendars
+				.Include(c => c.CalendarOrganisers)
+				.FirstOrDefaultAsync(c => c.Id == aggregateRootId);
 			if (calendar == null)
 			{
 				throw new ReadModelException($"Cannot find calendar with id {aggregateRootId}");
@@ -38,7 +41,17 @@ namespace Scheduler.Reporting.Data
 				throw new ReadModelException($"Cannot find user with id {ownerId}");
 			}
 
-			calendar.CalendarOrganisers = new List<CalendarOrganiserEntity>();
+			if (calendar.CalendarOrganisers == null)
+			{
+				calendar.CalendarOrganisers = new List<CalendarOrganiserEntity>();
+			}
+
+
+			if (_context.CalendarOrganisers.Any(co => co.CalendarId == aggregateRootId && co.UserId == ownerId))
+			{
+				return;
+			}
+
 			calendar.CalendarOrganisers.Add(new CalendarOrganiserEntity
 			{
 				CalendarId = aggregateRootId,
@@ -48,19 +61,6 @@ namespace Scheduler.Reporting.Data
 			_context.Update(calendar);
 
 			await _context.SaveChangesAsync();
-
-			//if (_context.CalendarOrganisers.Any(co => co.CalendarId == aggregateRootId && co.UserId == ownerId))
-			//{
-			//	return;
-			//}
-
-			//calendar.CalendarOrganisers.Add(new CalendarOrganiserEntity
-			//{
-			//	CalendarId = aggregateRootId,
-			//	UserId = ownerId
-			//});
-
-
 		}
 
 		public async Task CreateCalendarAsync(Guid aggregateRootId, string title, string timezone)
@@ -86,6 +86,14 @@ namespace Scheduler.Reporting.Data
 				TimeZoneCode = timeZoneCode
 			});
 			await _context.SaveChangesAsync();
+		}
+
+		public async Task<IEnumerable<CalendarEntity>> GetCalendarDataForPeriodAsync()
+		{
+			return await _context.Calendars
+				.Include(c => c.CalendarOrganisers)
+					.ThenInclude(co => co.User)
+				.ToListAsync();
 		}
 
 		public async Task<IEnumerable<UserEntity>> GetRecentUsersAsync()
