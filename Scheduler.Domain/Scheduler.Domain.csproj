@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Kledex" Version="2.0.0" />
-    <PackageReference Include="Kledex.Store.Cosmos.Mongo" Version="2.0.0" />
+    <PackageReference Include="Kledex" Version="2.1.0" />
+    <PackageReference Include="Kledex.Store.Cosmos.Mongo" Version="2.1.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
     <PackageReference Include="TimePeriodLibrary.NET" Version="2.1.1" />
     <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
