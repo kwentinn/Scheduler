@@ -28,7 +28,8 @@ namespace Scheduler
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services
-				.AddControllers();
+				.AddControllers()
+				.AddJsonOptions(options => options.JsonSerializerOptions.MaxDepth = 10);
 
 			// configure readmodel - mysql db
 			services.AddDbContext<SchedulerReadModelDbContext>(o => o.UseNpgsql(Configuration.GetConnectionString("ReadModel")));
