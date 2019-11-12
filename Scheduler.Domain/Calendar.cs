@@ -22,7 +22,7 @@ namespace Scheduler.Domain
 		{
 			_organiserIds = new List<Guid>();
 		}
-		public Calendar(Guid id, string name, string timeZone = "Romance Standard Time") : base(id)
+		public Calendar(Guid id, string name, string timeZone = "Romance Standard Time")
 		{
 			if (id == Guid.Empty) throw new ApplicationException("id is invalid.");
 			if (string.IsNullOrEmpty(name)) throw new ApplicationException("Calendar name is required");
