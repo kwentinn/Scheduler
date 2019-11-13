@@ -6,6 +6,6 @@ namespace Scheduler.Domain.Policies
 		where IDomainCommand : Kledex.Domain.IDomainCommand
 		where IAggregateRoot : Kledex.Domain.IAggregateRoot
 	{
-		bool CanExecute(IAggregateRoot aggregateRoot);
+		PolicyResult CanExecute(IAggregateRoot aggregateRoot);
 	}
 }

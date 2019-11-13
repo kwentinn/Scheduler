@@ -28,10 +28,11 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 				command.CalendarId
 			);
 
-
-			if (!_appointmentPlanPolicy.CanExecute(appointment))
+			// Does the policy for the plan appointment command allow to create ?
+			var result = _appointmentPlanPolicy.CanExecute(appointment);
+			if (!result.CanExecute)
 			{
-				throw new ApplicationException("Cannot plan appointment");
+				throw new ApplicationException($"Cannot plan appointment ({ result.Reason }).");
 			}
 
 

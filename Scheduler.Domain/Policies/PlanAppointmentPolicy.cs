@@ -9,9 +9,10 @@ namespace Scheduler.Domain.Policies
 		{
 		}
 
-		public bool CanExecute(Appointment aggregateRoot)
+		public PolicyResult CanExecute(Appointment aggregateRoot)
 		{
-			return true;
+
+			return new PolicyResult { CanExecute = true };
 		}
 	}
 }
