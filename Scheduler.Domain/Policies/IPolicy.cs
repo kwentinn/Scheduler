@@ -1,4 +1,4 @@
-﻿using Scheduler.Domain.Commands.AppointmentCommands;
+﻿using System.Threading.Tasks;
 
 namespace Scheduler.Domain.Policies
 {
@@ -6,6 +6,6 @@ namespace Scheduler.Domain.Policies
 		where IDomainCommand : Kledex.Domain.IDomainCommand
 		where IAggregateRoot : Kledex.Domain.IAggregateRoot
 	{
-		PolicyResult CanExecute(IAggregateRoot aggregateRoot);
+		Task<PolicyResult> CanExecuteAsync(IAggregateRoot aggregateRoot);
 	}
 }

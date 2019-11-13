@@ -29,7 +29,7 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 			);
 
 			// Does the policy for the plan appointment command allow to create ?
-			var result = _appointmentPlanPolicy.CanExecute(appointment);
+			var result = await _appointmentPlanPolicy.CanExecuteAsync(appointment);
 			if (!result.CanExecute)
 			{
 				throw new ApplicationException($"Cannot plan appointment ({ result.Reason }).");
