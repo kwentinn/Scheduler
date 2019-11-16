@@ -8,9 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scheduler.Domain;
 using Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs;
+using Scheduler.Domain.Commands.AppointmentCommands;
 using Scheduler.Domain.Commands.CalendarCommands;
 using Scheduler.Domain.Events;
+using Scheduler.Domain.Policies;
+using Scheduler.Domain.Repositories;
 using Scheduler.Reporting.Data;
+using Scheduler.Reporting.Data.Repositories;
 using Scheduler.Reporting.EventHandlers.UserEvtHdlrs;
 
 namespace Scheduler
@@ -36,15 +40,17 @@ namespace Scheduler
 
 			services
 				.AddScoped<IReadModelService, ReadModelService>()
+				.AddScoped<IAppointmentRepository, AppointmentRepository>()
+				.AddScoped<IPolicy<PlanNewAppointment, Appointment>, PlanAppointmentPolicy>()
 			;
 
 			services
 				.AddKledex
 				(
-					typeof(Appointment), 
-					typeof(CreateCalendar), 
-					typeof(CreateCalendarHandler), 
-					typeof(UserRegistered), 
+					typeof(Appointment),
+					typeof(CreateCalendar),
+					typeof(CreateCalendarHandler),
+					typeof(UserRegistered),
 					typeof(UserRegisteredHandler)
 				)
 
