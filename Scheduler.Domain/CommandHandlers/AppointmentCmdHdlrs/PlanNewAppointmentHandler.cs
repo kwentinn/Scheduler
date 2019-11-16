@@ -13,10 +13,12 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 		private readonly IRepository<Appointment> _repository;
 		private readonly IPolicy<PlanNewAppointment, Appointment> _appointmentPlanPolicy;
 
-		public PlanNewAppointmentHandler(IRepository<Appointment> repository, IPolicy<PlanNewAppointment, Appointment> _appointmentPlanPolicy)
+		public PlanNewAppointmentHandler(IRepository<Appointment> repository, IPolicy<PlanNewAppointment, Appointment> appointmentPlanPolicy)
 		{
 			_repository = repository;
+			_appointmentPlanPolicy = appointmentPlanPolicy;
 		}
+
 		public async Task<CommandResponse> HandleAsync(PlanNewAppointment command)
 		{
 			var appointment = new Appointment
@@ -35,9 +37,10 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 				throw new ApplicationException($"Cannot plan appointment ({ result.Reason }).");
 			}
 
-
+			// if success, we save the event to the store
 			await _repository.SaveAsync(appointment);
 
+			// and return a command reponse containing the new id
 			return new CommandResponse
 			{
 				Events = appointment.Events,
