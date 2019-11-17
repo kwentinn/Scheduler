@@ -10,6 +10,7 @@ using Scheduler.Domain;
 using Scheduler.Domain.CommandHandlers.CalendarCmdHdlrs;
 using Scheduler.Domain.Commands.AppointmentCommands;
 using Scheduler.Domain.Commands.CalendarCommands;
+using Scheduler.Domain.Commands.UserCommands;
 using Scheduler.Domain.Events;
 using Scheduler.Domain.Policies;
 using Scheduler.Domain.Repositories;
@@ -41,7 +42,9 @@ namespace Scheduler
 			services
 				.AddScoped<IReadModelService, ReadModelService>()
 				.AddScoped<IAppointmentRepository, AppointmentRepository>()
+				.AddScoped<IUserRepository, UserRepository>()
 				.AddScoped<IPolicy<PlanNewAppointment, Appointment>, PlanAppointmentPolicy>()
+				.AddScoped<IPolicy<RegisterUser, User>, RegisterUserPolicy>()
 			;
 
 			services
@@ -55,11 +58,17 @@ namespace Scheduler
 				)
 
 				// configure event store (MongoDB)
-				.AddCosmosDbMongoDbProvider(Configuration)
+				.AddCosmosDbMongoDbProvider(options =>
+				{
+					options.DatabaseName = "SchedulerDomainStore";
+					options.AggregateCollectionName = "Aggregates";
+					options.CommandCollectionName = "Commands";
+					options.EventCollectionName = "Events";
+				});
 
-				// configure message bus (rabbitMQ)
-				//.AddRabbitMQProvider(Configuration)
-				;
+			// configure message bus (rabbitMQ)
+			//.AddRabbitMQProvider(Configuration)
+			;
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
