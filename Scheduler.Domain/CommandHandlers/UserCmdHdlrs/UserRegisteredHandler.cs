@@ -23,7 +23,7 @@ namespace Scheduler.Domain.CommandHandlers.UserCmdHdlrs
 			// création de l'instance
 			var user = new User(command.AggregateRootId, command.Firstname, command.Lastname, command.Email, command.TimeZoneCode);
 
-			var policyResult = await _policy.CanExecuteAsync(user);
+			var policyResult = await _policy.CanExecuteAsync(command, user);
 			if (!policyResult.CanExecute)
 			{
 				throw new ApplicationException($"Cannot register the user. Policy error: {policyResult.Reason}");

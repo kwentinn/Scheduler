@@ -13,7 +13,7 @@ namespace Scheduler.Domain.Policies
 			_userRepository = userRepository;
 		}
 
-		public async Task<PolicyResult> CanExecuteAsync(User aggregateRoot)
+		public async Task<PolicyResult> CanExecuteAsync(RegisterUser command, User aggregateRoot)
 		{
 			var userExists = _userRepository.DoesUserExistWithEmail(aggregateRoot.Email);
 			if (userExists)

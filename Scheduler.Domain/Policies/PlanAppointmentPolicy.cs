@@ -16,7 +16,7 @@ namespace Scheduler.Domain.Policies
 			_appointmentRepository = appointmentRepository;
 		}
 
-		public async Task<PolicyResult> CanExecuteAsync(Appointment aggregateRoot)
+		public async Task<PolicyResult> CanExecuteAsync(PlanNewAppointment command, Appointment aggregateRoot)
 		{
 			// To be able to plan a new appointment, the following conditions must be met:
 
