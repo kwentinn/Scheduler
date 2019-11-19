@@ -45,6 +45,7 @@ namespace Scheduler
 				.AddScoped<IUserRepository, UserRepository>()
 				.AddScoped<IPolicy<PlanNewAppointment, Appointment>, PlanAppointmentPolicy>()
 				.AddScoped<IPolicy<RegisterUser, User>, RegisterUserPolicy>()
+				.AddScoped<IPolicy<RescheduleAppointment, Appointment>, RescheduleAppointmentPolicy>()
 			;
 
 			services
