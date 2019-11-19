@@ -14,7 +14,7 @@ namespace Scheduler.Reporting.Data.Entities
 
 		public DateTime UtcCreatedAt { get; set; }
 
-		public CalendarEntity Calendar { get; set; }
+		public virtual CalendarEntity Calendar { get; set; }
 
 		public virtual ICollection<UserEntity> Attendees { get; set; }
 	}
