@@ -1,4 +1,5 @@
-﻿using Kledex;
+﻿using Itenso.TimePeriod;
+using Kledex;
 using Microsoft.AspNetCore.Mvc;
 using Scheduler.Controllers.ApiCommands;
 using System;
@@ -30,6 +31,23 @@ namespace Scheduler.Controllers
 				Description = command.Description,
 				UtcStart = command.UtcStart,
 				UtcEnd = command.UtcEnd
+			};
+
+			var appointmentId = await _dispatcher.SendAsync<Guid>(domainCommand);
+
+			return Ok(new { Id = appointmentId });
+		}
+
+		[HttpPost]
+		[Route("reschedule")]
+		public async Task<IActionResult> RescheduleAppointmentAsync(RescheduleAppointment command)
+		{
+			var domainCommand = new Domain.Commands.AppointmentCommands.RescheduleAppointment
+			{
+				Id = Guid.NewGuid(),
+
+				AggregateRootId = command.AppointmentId,
+				NewUtcPeriod = new TimeRange(command.NewUtcStart, command.NewUtcEnd)
 			};
 
 			var appointmentId = await _dispatcher.SendAsync<Guid>(domainCommand);

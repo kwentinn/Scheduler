@@ -1,5 +1,6 @@
 ﻿using Itenso.TimePeriod;
 using Kledex.Domain;
+using Scheduler.Domain.Commands.AppointmentCommands;
 using Scheduler.Domain.Events;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,23 @@ namespace Scheduler.Domain
 			});
 		}
 
+		public void Reschedule(RescheduleAppointment command)
+		{
+			//if (command.NewUtcPeriod.IsMoment) throw new ApplicationException("The new period is invalid because it is a moment (start = end).");
+			//if (command.NewUtcPeriod.IsAnytime) throw new ApplicationException("The new period is invalid because it is not defined.");
+
+			var evt = new AppointmentRescheduled
+			{
+				Id = Guid.NewGuid(),
+				CommandId = command.Id,
+
+				AggregateRootId = Id,
+				NewUtcPeriod = command.NewUtcPeriod
+			};
+
+			AddAndApplyEvent(evt);
+		}
+
 		private void Apply(NewAppointmentPlanned @event)
 		{
 			Id = @event.AggregateRootId;
@@ -47,5 +65,10 @@ namespace Scheduler.Domain
 
 			Status = AppointmentStatus.Draft;
 		}
+		private void Apply(AppointmentRescheduled @event)
+		{
+			UtcPeriod = @event.NewUtcPeriod;
+		}
+
 	}
 }
