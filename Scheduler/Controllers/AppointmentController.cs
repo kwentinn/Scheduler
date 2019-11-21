@@ -30,7 +30,9 @@ namespace Scheduler.Controllers
 				Title = command.Title,
 				Description = command.Description,
 				UtcStart = command.UtcStart,
-				UtcEnd = command.UtcEnd
+				UtcEnd = command.UtcEnd,
+
+				Validate = true
 			};
 
 			var appointmentId = await _dispatcher.SendAsync<Guid>(domainCommand);
