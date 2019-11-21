@@ -36,7 +36,9 @@ namespace Scheduler.Controllers
 				Firstname = command.Firstname,
 				Lastname = command.Lastname,
 				Email = command.Email,
-				TimeZoneCode = command.TimeZone
+				TimeZoneCode = command.TimeZone,
+
+				Validate = true
 			};
 
 			var userId = await _dispatcher.SendAsync<Guid>(cmd);
