@@ -1,5 +1,6 @@
 using Kledex.Extensions;
 using Kledex.Store.Cosmos.Mongo.Extensions;
+using Kledex.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +44,6 @@ namespace Scheduler
 				.AddScoped<IReadModelService, ReadModelService>()
 				.AddScoped<IAppointmentRepository, AppointmentRepository>()
 				.AddScoped<IUserRepository, UserRepository>()
-				.AddScoped<IPolicy<PlanNewAppointment, Appointment>, PlanAppointmentPolicy>()
 				.AddScoped<IPolicy<RegisterUser, User>, RegisterUserPolicy>()
 				.AddScoped<IPolicy<RescheduleAppointment, Appointment>, RescheduleAppointmentPolicy>()
 			;
@@ -65,7 +65,10 @@ namespace Scheduler
 					options.AggregateCollectionName = "Aggregates";
 					options.CommandCollectionName = "Commands";
 					options.EventCollectionName = "Events";
-				});
+				})
+
+				// configure policy-based validation for commands
+				.AddPolicyValidationProvider()
 
 			// configure message bus (rabbitMQ)
 			//.AddRabbitMQProvider(Configuration)
