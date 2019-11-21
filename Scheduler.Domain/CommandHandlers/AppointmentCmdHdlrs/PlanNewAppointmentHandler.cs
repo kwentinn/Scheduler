@@ -2,8 +2,6 @@
 using Kledex.Commands;
 using Kledex.Domain;
 using Scheduler.Domain.Commands.AppointmentCommands;
-using Scheduler.Domain.Policies;
-using System;
 using System.Threading.Tasks;
 
 namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
@@ -11,12 +9,10 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 	public class PlanNewAppointmentHandler : ICommandHandlerAsync<PlanNewAppointment>
 	{
 		private readonly IRepository<Appointment> _repository;
-		private readonly IPolicy<PlanNewAppointment, Appointment> _appointmentPlanPolicy;
 
-		public PlanNewAppointmentHandler(IRepository<Appointment> repository, IPolicy<PlanNewAppointment, Appointment> appointmentPlanPolicy)
+		public PlanNewAppointmentHandler(IRepository<Appointment> repository)
 		{
 			_repository = repository;
-			_appointmentPlanPolicy = appointmentPlanPolicy;
 		}
 
 		public async Task<CommandResponse> HandleAsync(PlanNewAppointment command)
@@ -29,13 +25,6 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 				new TimeRange(command.UtcStart, command.UtcEnd),
 				command.CalendarId
 			);
-
-			// Does the policy for the plan appointment command allow to create ?
-			var result = await _appointmentPlanPolicy.CanExecuteAsync(command, appointment);
-			if (!result.CanExecute)
-			{
-				throw new ApplicationException($"Cannot plan appointment ({ result.Reason }).");
-			}
 
 			// if success, we save the event to the store
 			await _repository.SaveAsync(appointment);
