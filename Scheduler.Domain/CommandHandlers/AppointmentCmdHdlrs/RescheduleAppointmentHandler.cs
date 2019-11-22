@@ -12,12 +12,10 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 	public class RescheduleAppointmentHandler : ICommandHandlerAsync<RescheduleAppointment>
 	{
 		private readonly IRepository<Appointment> _repository;
-		private readonly IPolicy<RescheduleAppointment, Appointment> _policy;
 
-		public RescheduleAppointmentHandler(IRepository<Appointment> repository, IPolicy<RescheduleAppointment, Appointment> policy)
+		public RescheduleAppointmentHandler(IRepository<Appointment> repository)
 		{
 			_repository = repository;
-			_policy = policy;
 		}
 
 		public async Task<CommandResponse> HandleAsync(RescheduleAppointment command)
@@ -27,12 +25,6 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 			if (appointment == null)
 			{
 				throw new ApplicationException($"Cannot find appointment (id: {command.AggregateRootId}).");
-			}
-
-			var policyResult = await _policy.CanExecuteAsync(command, appointment);
-			if (!policyResult.CanExecute)
-			{
-				throw new ApplicationException($"Cannot reschedule appointment ({policyResult.Reason}).");
 			}
 
 			appointment.Reschedule(command);
