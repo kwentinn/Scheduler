@@ -1,10 +1,7 @@
 ﻿using Kledex.Commands;
 using Kledex.Domain;
 using Scheduler.Domain.Commands.AppointmentCommands;
-using Scheduler.Domain.Policies;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
@@ -28,9 +25,6 @@ namespace Scheduler.Domain.CommandHandlers.AppointmentCmdHdlrs
 			}
 
 			appointment.Reschedule(command);
-
-			// if success, we save the event to the store
-			await _repository.SaveAsync(appointment);
 
 			// and return a command reponse containing the new id
 			return new CommandResponse
