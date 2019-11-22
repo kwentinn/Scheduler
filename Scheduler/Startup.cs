@@ -44,11 +44,15 @@ namespace Scheduler
 				.AddScoped<IReadModelService, ReadModelService>()
 				.AddScoped<IAppointmentRepository, AppointmentRepository>()
 				.AddScoped<IUserRepository, UserRepository>()
+				.AddScoped<ICalendarRepository, CalendarRepository>()
 			;
 
 			services
-				.AddKledex
-				(
+				.AddKledex(o =>
+				{
+					o.ValidateCommands = true;
+					o.SaveCommandData = true;
+				},
 					typeof(Appointment),
 					typeof(CreateCalendar),
 					typeof(CreateCalendarHandler),
