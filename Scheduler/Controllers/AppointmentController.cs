@@ -49,6 +49,7 @@ namespace Scheduler.Controllers
 				Id = Guid.NewGuid(),
 
 				AggregateRootId = command.AppointmentId,
+				CalendarId = command.CalendarId,
 				NewUtcPeriod = new TimeRange(command.NewUtcStart, command.NewUtcEnd)
 			};
 
