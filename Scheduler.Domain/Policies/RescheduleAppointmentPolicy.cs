@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Scheduler.Domain.Policies
 {
-	public class RescheduleAppointmentPolicy : IPolicy<RescheduleAppointment, Appointment>
+	public class RescheduleAppointmentPolicy : IPolicy<RescheduleAppointment>
 	{
 		private readonly IRepository<Calendar> _calendarRepository;
 		private readonly IAppointmentRepository _appointmentRepository;
@@ -17,11 +17,11 @@ namespace Scheduler.Domain.Policies
 			_appointmentRepository = appointmentRepository;
 		}
 
-		public async Task<PolicyResult> CanExecuteAsync(RescheduleAppointment command, Appointment aggregateRoot)
+		public async Task<PolicyResult> CanExecuteAsync(RescheduleAppointment command)
 		{
 			// 1. the associated calendar must not be archived
 			// ----> we can know this by loading the Calendar from its repository
-			var calendar = await _calendarRepository.GetByIdAsync(aggregateRoot.CalendarId);
+			var calendar = await _calendarRepository.GetByIdAsync(command.CalendarId);
 			if (calendar.IsArchived)
 			{
 				return new PolicyResult
@@ -31,7 +31,7 @@ namespace Scheduler.Domain.Policies
 				};
 			}
 
-			if (_appointmentRepository.HasAppointmentForPeriod(aggregateRoot.CalendarId, command.NewUtcPeriod))
+			if (_appointmentRepository.HasAppointmentForPeriod(command.CalendarId, command.NewUtcPeriod))
 			{
 				return new PolicyResult
 				{
@@ -41,6 +41,10 @@ namespace Scheduler.Domain.Policies
 			}
 
 			return new PolicyResult { CanExecute = true };
+		}
+		public PolicyResult CanExecute(RescheduleAppointment command)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

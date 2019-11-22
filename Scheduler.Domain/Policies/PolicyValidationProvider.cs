@@ -1,10 +1,7 @@
 ﻿using Kledex.Commands;
 using Kledex.Dependencies;
 using Kledex.Validation;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Scheduler.Domain.Policies
